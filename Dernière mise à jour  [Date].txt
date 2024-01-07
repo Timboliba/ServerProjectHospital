@@ -1,0 +1,52 @@
+Dernière mise à jour : [Date]
+
+Bienvenue sur HealthApp, une application mobile de prise de rendez-vous médical. Votre vie privée est importante pour nous. Cette politique de confidentialité explique comment nous recueillons, utilisons, divulguons et protégeons vos informations personnelles dans le cadre de votre utilisation de l'application HealthApp. En utilisant HealthApp, vous acceptez les pratiques décrites dans cette politique de confidentialité.
+
+Informations collectées
+
+a. Informations fournies par l'utilisateur : Nous recueillons les informations que vous fournissez volontairement lors de la création d'un compte, de la prise de rendez-vous, et de l'utilisation des fonctionnalités de l'application. Cela peut inclure votre nom, adresse e-mail, numéro de téléphone, informations médicales, etc.
+
+b. Informations automatiquement collectées : Nous recueillons automatiquement des informations sur votre appareil mobile et votre utilisation de l'application, y compris votre adresse IP, votre type d'appareil, votre système d'exploitation, la date et l'heure de votre utilisation, etc.
+
+Utilisation des informations
+
+Nous utilisons les informations collectées pour :
+
+a. Faciliter la prise de rendez-vous médical.
+
+b. Personnaliser votre expérience et améliorer nos services.
+
+c. Envoyer des notifications liées à vos rendez-vous et des informations pertinentes.
+
+d. Répondre à vos demandes d'assistance et vous fournir un support client.
+
+e. Assurer le bon fonctionnement et la sécurité de l'application.
+
+Partage des informations
+
+Nous ne partageons pas vos informations personnelles avec des tiers, sauf dans les cas suivants :
+
+a. Avec votre consentement explicite.
+
+b. Pour répondre aux obligations légales ou pour protéger nos droits.
+
+Sécurité des informations
+
+Nous prenons des mesures pour protéger vos informations personnelles contre l'accès non autorisé, la modification, la divulgation ou la destruction.
+
+Cookies et technologies similaires
+
+Nous utilisons des cookies et d'autres technologies similaires pour améliorer votre expérience utilisateur.
+
+Liens vers des sites tiers
+
+L'application peut contenir des liens vers des sites tiers. Nous ne sommes pas responsables des pratiques de confidentialité de ces sites.
+
+Modifications de la politique de confidentialité
+
+Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées dans l'application et seront effectives dès leur publication.
+
+Contactez-nous
+
+Pour toute question concernant cette politique de confidentialité, veuillez nous contacter à l'adresse [adresse e-mail].
+
