@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
 
 const DocteurSchema = mongoose.Schema({
-    nom: { type: String, required: true },
-    prenom: { type: String, required: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
     age: { type: Number, required: true },
     sexe: { type: String, required: true },
-    photo: { type: String, required: true },
-    specialite: { type: String, required: true },
-    titre: { type: String, required: true },
-    adresse: { type: String, required: true },
-    telephone: { type: String, required: true },
+    pic: { type: String, required: true },
+    speciality: { type: String, required: true },
+    title: { type: String, required: true },
+    city: { type: String, required: true },
+    cabinetAddress: { type: String, required: true },
+    cabinetPhone: { type: String, required: true },
+    phone: { type: String, required: true },
     diplome: { type: String, required: true },
     password: { type: String, required: true },
     categorieRDV: { type: String, required: true },
+    createAt: { type: Date, required: true },
+    updateAt: { type: Date, required: true },
 });
 
 module.exports = mongoose.model('Docteur', DocteurSchema);

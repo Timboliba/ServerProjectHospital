@@ -35,18 +35,24 @@ App.get('/api/Patient',(req,res)=>{
 //Ajout d'un nouveau patient
 App.post('/api/Patient',async(req,res)=>{
   try {
-    
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString();
+
     const NouveauPatient=new Patient({
     
-      nom:req.body.nom,
-      prenom:req.body.prenom,
+      firstname:req.body.nom,
+      lastname:req.body.prenom,
+      email:req.body.email,
+      password:req.body.password,
+      country:req.body.age,
+      phone:req.body.tel,
+      pic:req.body.pic,
       age:req.body.age,
       sexe:req.body.sexe,
-      adresse:req.body.adresse,
-      tel:req.body.tel,
       email:req.body.email,
       username:req.body.username,
-      password:req.body.password
+      createdAt:formattedDate,
+      updatedAt:formattedDate
       
     });
     const savePatient=await NouveauPatient.save();
@@ -75,20 +81,22 @@ App.delete('/api/Pateint/:id',(req,res)=>{
 //Mise à jour d'un patient
 App.put('api/Patient/:id',(req,res)=>{
   const Pateintid=id.req.params.id
-  const {nom,prenom,age,sexe,adresse,tel,email,username,password}=req.body
-
+  const {firstname,lastname,email,password,country,phone,pic,age,sexe,updatedAt}=req.body
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleString();
   Patient.findByIdAndUpdate(Pateintid,
     {
       //les champs a modifier
-      nom,
-      prenom,
+      firstname,
+      lastname,
+      email,  
+      password,
+      country,
+      phone,
+      pic,
       age,
       sexe,
-      adresse,
-      tel,
-      email,
-      username,
-      password
+      updatedAt:formattedDate
     },{new:true}// {new:true} renvoie la version mise à jour du Patient
     )
       .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))
@@ -103,27 +111,35 @@ App.put('api/Patient/:id',(req,res)=>{
 //Récupération de tout les Docteur 
 App.get('/api/Docteur',(req,res)=>{
   Docteur.find({})
-    .then(result=>res.status(200).json)
+    .then(result=>res.status(200).json(result))
     .catch(error=>res.status(400).json({error:error.message}))
 })
 
+
+
+
 //Ajout d'un nouveau Docteur
 App.post('/api/Docteur',async (req,res)=>{
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleString();
   try{
     const newDocteur=new Docteur({
-      nom:req.body.nom,
-      prenom: req.body.prenom,
+      firstname:req.body.firstname,
+      lastname: req.body.lastname,
       age: req.body.age,
       sexe: req.body.sexe,
-      photo: req.body.photo,
-      specialite: req.body.specialite,
-      titre: req.body.titre,
-      adresse: req.body.adresse,
-      telephone: req.body.telephone,
+      pic: req.body.pic,
+      speciality: req.body.speciality,
+      title: req.body.title,
+      city: req.body.city,
+      cabinetAddress: req.body.cabinetAddress,
+      cabinetPhone: req.body.cabinetPhone,
+      phone: req.body.phone,
       diplome: req.body.diplome,
-      username: req.body.username,
       password: req.body.password,
       categorieRDV: req.body.categorieRDV,
+      createAt: req.body.createAt,
+      updateAt: req.body.updateAt,
     })
 
     const savDocteur=await newDocteur.save()
@@ -157,6 +173,21 @@ App.put('api/Docteur/:id',(req,res)=>{
   Docteur.findByIdAndUpdate(Docteurid,
     {
       //les champs a modifier
+      firstname,
+      lastname,
+      age,
+      sexe,
+      pic,
+      speciality,
+      title,
+      city,
+      cabinetAddress,
+      cabinetPhone,
+      phone,
+      diplome,
+      password,
+      categorieRDV,
+      updateAt: formattedDate,
     },{new:true}// {new:true} renvoie la version mise à jour du Docteur
     )
       .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))

@@ -15,6 +15,3 @@ const server=http.createServer(App)
 server.listen(PORT,()=>{
     console.log(`Listening at port ${PORT}`)
 })
-
-
-
