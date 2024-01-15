@@ -36,23 +36,19 @@ App.get('/api/Patient',(req,res)=>{
 App.post('/api/Patient',async(req,res)=>{
   try {
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString();
-
     const NouveauPatient=new Patient({
     
-      firstname:req.body.nom,
-      lastname:req.body.prenom,
+      firstname:req.body.firstname,
+      lastname:req.body.lastname,
       email:req.body.email,
       password:req.body.password,
-      country:req.body.age,
-      phone:req.body.tel,
+      country:req.body.country,
+      phone:req.body.phone,
       pic:req.body.pic,
       age:req.body.age,
       sexe:req.body.sexe,
-      email:req.body.email,
-      username:req.body.username,
-      createdAt:formattedDate,
-      updatedAt:formattedDate
+      createAt: req.body.createAt,
+      updateAt: req.body.updateAt,
       
     });
     const savePatient=await NouveauPatient.save();
@@ -116,7 +112,18 @@ App.get('/api/Docteur',(req,res)=>{
 })
 
 
-
+// Authentification d'un Docteur
+App.get('/api/Docteur/:id', (req, res) => {
+  const docId = req.params.id;
+  Docteur.find({ _id:docId })
+    .then(docteur => {
+      if (!docteur) {
+        return res.status(404).json({ error: "Docteur non trouvé" });
+      }
+      res.status(200).json(docteur);
+    })
+    .catch(error => res.status(500).json({ error: "Erreur serveur" }));
+});
 
 //Ajout d'un nouveau Docteur
 App.post('/api/Docteur',async (req,res)=>{

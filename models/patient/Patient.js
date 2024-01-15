@@ -7,10 +7,10 @@ const PatientSchema =mongoose.Schema ({
   password:{type:String,required:true},
   country:{type:String,require:true},
   phone: { type: String, required: true },
-  pic:{type:String,require:true},
+  pic:{type:String,require:false},
   age:{type:Number,required:true},
   sexe:{type:String,required:true},
-  createdAt:{type:Date,require},
-  updatedAt:{type:Date,require}
+  createdAt:{type:Date,require:false},
+  updatedAt:{type:Date,require:false}
 })
 module.exports=mongoose.model('Patient',PatientSchema)
