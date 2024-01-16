@@ -11,6 +11,7 @@ App.use(express.json())
 
 const Docteur=require('../models/docteur/Docteur')
 const Patient=require('../models/patient/Patient')
+const Consultation=require('../models/consultation/Consultation')
 // const Consultation=require('../models/consultation/Consultation')
 // const Planification=require('../models/planification/Planification')
 const { error } = require('console')
@@ -26,6 +27,16 @@ App.use((req, res, next) => {
 //Récupération de tout les patients
 App.get('/api/Patient',(req,res)=>{
   Patient.find({})
+    .then(result=>res.status(200).json(result))
+    .catch(error=>{
+      res.status(404).json({error:error.message})
+    })
+})
+
+
+//Récupération des information d'un patient
+App.get('/api/Patient/id',(req,res)=>{
+  Patient.findOne({_id:req.body})
     .then(result=>res.status(200).json(result))
     .catch(error=>{
       res.status(404).json({error:error.message})
@@ -104,18 +115,20 @@ App.put('api/Patient/:id',(req,res)=>{
 
 /*****************************************Route docteur*****************************************/
 
-//Récupération de tout les Docteur 
-App.get('/api/Docteur',(req,res)=>{
+// Récupération de tout les Docteur 
+App.get('/api/Docteur',(req,res,next)=>{
   Docteur.find({})
     .then(result=>res.status(200).json(result))
     .catch(error=>res.status(400).json({error:error.message}))
+    
 })
 
 
-// Authentification d'un Docteur
-App.get('/api/Docteur/:id', (req, res) => {
-  const docId = req.params.id;
-  Docteur.find({ _id:docId })
+// Recuperation d'un Docteur par son id d'un Docteur
+App.get('/api/Docteur/id', (req, res) => {
+  const idDoc = req.body.id;
+  console.log(idDoc)
+  Docteur.findOne({_id:idDoc} )
     .then(docteur => {
       if (!docteur) {
         return res.status(404).json({ error: "Docteur non trouvé" });
@@ -125,10 +138,9 @@ App.get('/api/Docteur/:id', (req, res) => {
     .catch(error => res.status(500).json({ error: "Erreur serveur" }));
 });
 
+
 //Ajout d'un nouveau Docteur
 App.post('/api/Docteur',async (req,res)=>{
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleString();
   try{
     const newDocteur=new Docteur({
       firstname:req.body.firstname,
@@ -172,8 +184,9 @@ App.delete('/api/Docteur/:id',(req,res)=>{
 })
 
 
+
 //Mise a jour d'un Docteur
-App.put('api/Docteur/:id',(req,res)=>{
+App.put('/api/Docteur/:id',(req,res)=>{
   const Docteurid=id.req.params.id
   const {...body}=req.body
 
@@ -202,7 +215,44 @@ App.put('api/Docteur/:id',(req,res)=>{
 
 })
 
-/*****************************************Route docteur*****************************************/
+/*****************************************Route prise de rendez-vous*****************************************/
 
+App.post('/api/Consultation',async (req,res)=>{
+  
+    const NewConsultation=new Consultation({
+      ...req.body
+    });
+   NewConsultation.save()
+   .then(()=>res.json({message:"Objet enregistrer avec succes"}))
+   .catch(error=>res.status(400).json({error:"Echec de l'enregistrement"}))
+   
+
+})
+
+//Recupération de la liste de consultation
+App.get('/api/Consultation',(req,res,next)=>{
+  Consultation.find({})
+    .then(result=>res.status(200).json(result))
+    .catch(error=>res.status(400).json({error:error.message})) 
+})
+
+//Modification de l'etat du rendez-vous
+// App.put('api/Docteur/:id',(req,res)=>{
+//   const Docteurid=id.req.params.id
+//   const {...body}=req.body
+
+//   Docteur.findByIdAndUpdate(Docteurid,
+//     {
+//       id_patient:req.body.id_patient,
+//       id_docteur:req.body.id_docteur,
+//       date_consultation:req.body.date_consultation,
+//       heure_consultation:req.body.heure_consultation,
+//       etatConsultation:req.body.etatConsultation
+//     },{new:true}// {new:true} renvoie la version mise à jour du Docteur
+//     )
+//       .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))
+//       .catch(error=>res.status(400).json({error:error.message}))
+
+// })
 
 module.exports =App;
