@@ -36,7 +36,8 @@ App.get('/api/Patient',(req,res)=>{
 
 //Récupération des information d'un patient
 App.get('/api/Patient/id',(req,res)=>{
-  Patient.findOne({_id:req.body})
+  const idPatient=req.body.idPatient
+  Patient.findOne({_id:idPatient})
     .then(result=>res.status(200).json(result))
     .catch(error=>{
       res.status(404).json({error:error.message})
@@ -231,7 +232,15 @@ App.post('/api/Consultation',async (req,res)=>{
 
 //Recupération de la liste de consultation
 App.get('/api/Consultation',(req,res,next)=>{
+  
   Consultation.find({})
+    .then(result=>res.status(200).json(result))
+    .catch(error=>res.status(400).json({error:error.message})) 
+})
+
+App.get('/api/Consultation/Patient',(req,res,next)=>{
+  const {idPatient}=req.body
+  Consultation.find({id_patient:idPatient})
     .then(result=>res.status(200).json(result))
     .catch(error=>res.status(400).json({error:error.message})) 
 })
