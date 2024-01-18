@@ -35,7 +35,7 @@ App.get('/api/Patient',(req,res)=>{
 
 
 //Récupération des information d'un patient
-App.get('/api/Patient/:id',(req,res)=>{
+App.get('/api/Patient/:idPatient',(req,res)=>{
   const idPatient=req.body.idPatient
   Patient.findOne({_id:idPatient})
     .then(result=>res.status(200).json(result))
