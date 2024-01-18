@@ -35,7 +35,7 @@ App.get('/api/Patient',(req,res)=>{
 
 
 //Récupération des information d'un patient
-App.get('/api/Patient/id',(req,res)=>{
+App.get('/api/Patient/:id',(req,res)=>{
   const idPatient=req.body.idPatient
   Patient.findOne({_id:idPatient})
     .then(result=>res.status(200).json(result))
@@ -238,28 +238,12 @@ App.get('/api/Consultation',(req,res,next)=>{
     .catch(error=>res.status(400).json({error:error.message})) 
 })
 
-// App.get('/api/Consultation/Patient/:id_patient',(req,res,next)=>{
-//   const {id_patient}=req.params.id_patient
-//   Consultation.find({id_patient:id_patient})
-//     .then(result=>res.status(200).json(result))
-//     .catch(error=>res.status(400).json({error:error.message})) 
-// })
-
-App.get('/api/Consultation/Patient/:id_patient', (req, res, next) => {
-  const { id_patient } = req.params;
-
-  // Vérifiez si l'id_patient est un ObjectId valide
-  if (!ObjectId.isValid(id_patient)) {
-    return res.status(400).json({ error: 'ID patient invalide' });
-  }
-
-  // Convertissez l'id_patient en un objet ObjectId
-  const patientObjectId = new ObjectId(id_patient);
-
-  Consultation.find({ id_patient: patientObjectId })
-    .then(result => res.status(200).json(result))
-    .catch(error => res.status(400).json({ error: error.message }));
-});
+App.get('/api/Consultation/Patient/:id_patient',(req,res,next)=>{
+  const {id_patient}=req.params.id_patient
+  Consultation.find({id_patient:id_patient})
+    .then(result=>res.status(200).json(result))
+    .catch(error=>res.status(400).json({error:error.message})) 
+})
 
 //Modification de l'etat du rendez-vous
 // App.put('api/Docteur/:id',(req,res)=>{
