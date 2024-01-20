@@ -221,7 +221,11 @@ App.put('/api/Docteur/:id',(req,res)=>{
 App.post('/api/Consultation',async (req,res)=>{
   
     const NewConsultation=new Consultation({
-      ...req.body
+      id_patient:req.body.id_patient,
+      id_docteur:req.body.id_docteur,
+      date_consultation:req.body.date_consultation,
+      heure_consultation:req.body.heure_consultation,
+      etatConsultation:req.body.etatConsultation
     });
    NewConsultation.save()
    .then(()=>res.json({message:"Objet enregistrer avec succes"}))
