@@ -35,14 +35,15 @@ App.get('/api/Patient',(req,res)=>{
 
 
 //Récupération des information d'un patient
-App.get('/api/Patient/:id',(req,res)=>{
-  const idPatient=req.body.id
-  Patient.findOne({_id:idPatient})
-    .then(result=>res.status(200).json(result))
-    .catch(error=>{
-      res.status(404).json({error:error.message})
-    })
-})
+App.get('/api/Patient/:id', (req, res) => {
+  const idPatient = req.params.id;
+  Patient.findOne({ _id: idPatient })
+    .then(result => res.status(200).json(result))
+    .catch(error => {
+      res.status(404).json({ error: error.message });
+    });
+});
+
 
 //Ajout d'un nouveau patient
 App.post('/api/Patient',async(req,res)=>{
