@@ -36,7 +36,7 @@ App.get('/api/Patient',(req,res)=>{
 
 //Récupération des information d'un patient
 App.get('/api/Patient/:id',(req,res)=>{
-  const idPatient=req.params.id
+  const idPatient=req.body.id
   Patient.findOne({_id:idPatient})
     .then(result=>res.status(200).json(result))
     .catch(error=>{
@@ -219,7 +219,7 @@ App.put('/api/Docteur/:id',(req,res)=>{
 /*****************************************Route prise de rendez-vous*****************************************/
 
 App.post('/api/Consultation',async (req,res)=>{
-  
+  try{
     const NewConsultation=new Consultation({
       id_patient:req.body.id_patient,
       id_docteur:req.body.id_docteur,
@@ -227,10 +227,13 @@ App.post('/api/Consultation',async (req,res)=>{
       heure_consultation:req.body.heure_consultation,
       etatConsultation:req.body.etatConsultation
     });
-   NewConsultation.save()
-   .then(()=>res.json({message:"Objet enregistrer avec succes"}))
-   .catch(error=>res.status(400).json({error:"Echec de l'enregistrement"}))
-   
+    const savConsultation=await NewConsultation.save()
+    res.status(201).json(savConsultation)
+    console.log('Succès')
+  }catch(error){
+    res.status(401).json({error:error.message})
+    console.log('Echec')
+  }
 
 })
 
@@ -242,11 +245,26 @@ App.get('/api/Consultation',(req,res,next)=>{
     .catch(error=>res.status(400).json({error:error.message})) 
 })
 
-App.get('/api/Consultation/Patient/:id_patient',(req,res,next)=>{
-  const {id_patient}=req.params.id_patient
+
+//recuperation de la liste des consultation du patient
+App.get('/api/Consultation/Patient/:id',(req,res,next)=>{
+  const {id_patient}=req.params.id
   Consultation.find({id_patient:id_patient})
     .then(result=>res.status(200).json(result))
     .catch(error=>res.status(400).json({error:error.message})) 
+})
+
+//suppresion d'une consultation non confirmée
+App.delete('/api/Sonsultation/:id_consultation',(req,res)=>{
+  const id=req.body.id_consultation
+  Consultation.deleteOne({ _id:id })
+  .then(result => {
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Consultation non trouvé" });
+    }
+    res.status(200).json({ message: "Consultation supprimé avec succès" });
+  })
+  .catch(error => res.status(500).json({ error: "Erreur serveur" }));
 })
 
 //Modification de l'etat du rendez-vous
