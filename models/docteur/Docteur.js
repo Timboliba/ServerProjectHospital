@@ -15,9 +15,9 @@ const DocteurSchema = mongoose.Schema({
     diplome: { type: String, required: true },
     password: { type: String, required: true },
     categorieRDV: { type: String, required: true },
+    disponibility: { type: String, required: false },
     createAt: { type: Date, required: true },
     updateAt: { type: Date, required: true },
-    // disponibility:"Cabinet" becrypte
 });
 
 module.exports = mongoose.model('Docteur', DocteurSchema);
