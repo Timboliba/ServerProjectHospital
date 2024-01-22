@@ -269,7 +269,7 @@ App.get('/api/Consultation/Patient/:id',(req,res,next)=>{
 // })
 
 App.delete('/api/Consultation/:id_consultation', (req, res) => {
-  const query = { _id: new ObjectId(req.params.idConsultation) }
+  const query = { _id: new ObjectId(req.params.id_consultation) }
   Consultation.deleteOne(query)
     .then(result => {
       if (result.deletedCount === 0) {
