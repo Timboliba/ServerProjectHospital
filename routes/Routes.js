@@ -248,12 +248,21 @@ App.get('/api/Consultation',(req,res,next)=>{
 
 
 //recuperation de la liste des consultation du patient
-App.get('/api/Consultation/:id',(req,res,next)=>{
-  const {id_patient}=req.body.id
-  Consultation.find({id_patient:id_patient})
-    .then(result=>res.status(200).json(result))
-    .catch(error=>res.status(400).json({error:error.message})) 
-})
+// App.get('/api/Consultation/:id_patient',(req,res,next)=>{
+//   const {id_patient}=req.body.id_patient
+//   Consultation.findOne({id_patient:id_patient})
+//     .then(result=>res.status(200).json(result))
+//     .catch(error=>res.status(400).json({error:error.message})) 
+// })
+
+App.get('/api/Consultation/:id_patient', (req, res, next) => {
+  const id_patient  = req.params.id_patient;
+  Consultation.findOne({ id_patient: id_patient })
+    .then(result => res.status(200).json(result))
+    .catch(error => res.status(400).json({ error: error.message }));
+});
+
+
 
 //suppresion d'une consultation non confirmée
 // App.delete('/api/Consultation/:id_consultation',(req,res)=>{
@@ -270,7 +279,7 @@ App.get('/api/Consultation/:id',(req,res,next)=>{
 
 App.delete('/api/Consultation/:id_consultation', (req, res) => {
   const query = { _id: new ObjectId(req.params.id_consultation) }
-  const id_consult = req.params.id_consultation;
+  const id_consult = req.body.id_consultation;
   Consultation.deleteOne({ _id:id_consult })
     .then(result => res.status(200).json(result))
     .catch(error => {
