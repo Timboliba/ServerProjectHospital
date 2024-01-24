@@ -277,23 +277,34 @@ App.get('/api/Consultation/:id_patient', (req, res, next) => {
 //   .catch(error => res.status(500).json({ error: "Erreur serveur" }));
 // })
 
+// App.delete('/api/Consultation/:id_consultation', (req, res) => {
+//   const query = { _id: new ObjectId(req.params.id_consultation) }
+//   const id_consult = req.params.id_consultation;
+//   Consultation.deleteOne({ _id:id_consult })
+//     .then(result => res.status(200).json(result))
+//     .catch(error => {
+//       res.status(404).json({ error: error.message });
+//     });
+// });
+
 App.delete('/api/Consultation/:id_consultation', (req, res) => {
   const query = { _id: new ObjectId(req.params.id_consultation) }
   const id_consult = req.params.id_consultation;
-  Consultation.deleteOne({ _id:id_consult })
-    .then(result => res.status(200).json(result))
+
+  Consultation.deleteOne({ _id: new ObjectId(id_consult) })
+    .then(result => {
+      if (result.deletedCount === 1) {
+        // La suppression a réussi
+        res.status(200).json({ message: 'Consultation supprimée avec succès' });
+      } else {
+        // Aucune consultation trouvée avec cet ID
+        res.status(404).json({ error: 'Consultation non trouvée' });
+      }
+    })
     .catch(error => {
-      res.status(404).json({ error: error.message });
+      // Une erreur s'est produite lors de la suppression
+      res.status(500).json({ error: error.message });
     });
-  // console.log(query)
-  // Consultation.deleteOne(query)
-  //   .then(result => {
-  //     if (result.deletedCount === 0) {
-  //       return res.status(404).json({ error: "Consultation non trouvée" });
-  //     }
-  //     res.status(200).json({ message: "Consultation supprimée avec succès" });
-  //   })
-  //   .catch(error => res.status(500).json({ error: "Erreur serveur" }));
 });
 
 
