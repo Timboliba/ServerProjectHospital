@@ -249,7 +249,7 @@ App.get('/api/Consultation',(req,res,next)=>{
 
 //recuperation de la liste des consultation du patient
 App.get('/api/Consultation/:id',(req,res,next)=>{
-  const {id_patient}=req.params.id
+  const {id_patient}=req.body.id
   Consultation.find({id_patient:id_patient})
     .then(result=>res.status(200).json(result))
     .catch(error=>res.status(400).json({error:error.message})) 
