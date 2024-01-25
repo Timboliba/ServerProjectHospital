@@ -256,8 +256,15 @@ App.get('/api/Consultation',(req,res,next)=>{
 //     .catch(error=>res.status(400).json({error:error.message})) 
 // })
 
+// App.get('/api/Consultation/:id_patient', (req, res, next) => {
+//   const id_patient  = req.body;
+//   Consultation.find({ id_patient: id_patient })
+//     .then(result => res.status(200).json(result))
+//     .catch(error => res.status(400).json({ error: error.message }));
+// });
+
 App.get('/api/Consultation/:id_patient', (req, res, next) => {
-  const id_patient  = req.body;
+  const id_patient = req.params.id_patient; // Use req.params to get route parameters
   Consultation.find({ id_patient: id_patient })
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).json({ error: error.message }));
