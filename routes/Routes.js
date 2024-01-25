@@ -18,11 +18,12 @@ const { error } = require('console')
 
 // Pour eviter les erreur de  CORS
 App.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-  });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
+
 
 //Récupération de tout les patients
 App.get('/api/Patient',(req,res)=>{
@@ -256,7 +257,7 @@ App.get('/api/Consultation',(req,res,next)=>{
 // })
 
 App.get('/api/Consultation/:id_patient', (req, res, next) => {
-  const id_patient  = req.params.id_patient;
+  const id_patient  = req.body;
   Consultation.find({ id_patient: id_patient })
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).json({ error: error.message }));
