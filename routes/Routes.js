@@ -12,8 +12,7 @@ App.use(express.json())
 const Docteur=require('../models/docteur/Docteur')
 const Patient=require('../models/patient/Patient')
 const Consultation=require('../models/consultation/Consultation')
-// const Consultation=require('../models/consultation/Consultation')
-// const Planification=require('../models/planification/Planification')
+const Planification=require('../models/planification/Planification')
 const { error } = require('console')
 
 // Pour eviter les erreur de  CORS
@@ -37,8 +36,8 @@ App.get('/api/Patient',(req,res)=>{
 
 //Récupération des information d'un patient
 App.get('/api/Patient/:id', (req, res) => {
-  const idPatient = req.params.id;
-  Patient.findOne({ _id: idPatient })
+  
+  Patient.findOne({ _id: req.params.id })
     .then(result => res.status(200).json(result))
     .catch(error => {
       res.status(404).json({ error: error.message });
@@ -96,7 +95,6 @@ App.put('api/Patient/:id',(req,res)=>{
   const formattedDate = currentDate.toLocaleString();
   Patient.findByIdAndUpdate(Pateintid,
     {
-      //les champs a modifier
       firstname,
       lastname,
       email,  
@@ -107,7 +105,7 @@ App.put('api/Patient/:id',(req,res)=>{
       age,
       sexe,
       updatedAt:formattedDate
-    },{new:true}// {new:true} renvoie la version mise à jour du Patient
+    },{new:true}
     )
       .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))
       .catch(error=>res.status(400).json({error:error.message}))
@@ -195,7 +193,6 @@ App.put('/api/Docteur/:id',(req,res)=>{
 
   Docteur.findByIdAndUpdate(Docteurid,
     {
-      //les champs a modifier
       firstname,
       lastname,
       age,
@@ -248,52 +245,37 @@ App.get('/api/Consultation',(req,res,next)=>{
 })
 
 
-//recuperation de la liste des consultation du patient
-// App.get('/api/Consultation/:id_patient',(req,res,next)=>{
-//   const {id_patient}=req.body.id_patient
-//   Consultation.findOne({id_patient:id_patient})
-//     .then(result=>res.status(200).json(result))
-//     .catch(error=>res.status(400).json({error:error.message})) 
-// })
 
-// App.get('/api/Consultation/:id_patient', (req, res, next) => {
-//   const id_patient  = req.body;
-//   Consultation.find({ id_patient: id_patient })
-//     .then(result => res.status(200).json(result))
-//     .catch(error => res.status(400).json({ error: error.message }));
-// });
-
+//Récupération des consultation du patient
 App.get('/api/Consultation/:id_patient', (req, res, next) => {
-  const id_patient = req.params.id_patient; // Use req.params to get route parameters
-  Consultation.find({ id_patient: id_patient })
+
+  Consultation.find({ id_patient: req.params.id_patient })
+    .then(result => res.status(200).json(result))
+    .catch(error => res.status(400).json({ error: error.message }));
+});
+
+//Récupération des consultation du docteur
+App.get('/api/Consultation/Docteur/:id_docteur', (req, res, next) => {
+
+  Consultation.find({ id_docteur: req.params.id_docteur })
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).json({ error: error.message }));
 });
 
 
-
 //suppresion d'une consultation non confirmée
-// App.delete('/api/Consultation/:id_consultation',(req,res)=>{
-//   // const id=req.body.id_consultation
-//   Consultation.deleteOne({ _id:req.body.id_consultation })
-//   .then(result => {
-//     if (result.deletedCount === 0) {
-//       return res.status(404).json({ error: "Consultation non trouvé" });
-//     }
-//     res.status(200).json({ message: "Consultation supprimé avec succès" });
-//   })
-//   .catch(error => res.status(500).json({ error: "Erreur serveur" }));
-// })
+App.delete('/api/Consultation/:id_consultation',(req,res)=>{
+  
+  Consultation.deleteOne({ _id:req.params.id_consultation })
+  .then(result => {
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Consultation non trouvé" });
+    }
+    res.status(200).json({ message: "Consultation supprimé avec succès" });
+  })
+  .catch(error => res.status(500).json({ error: "Erreur serveur" }));
+})
 
-// App.delete('/api/Consultation/:id_consultation', (req, res) => {
-//   const query = { _id: new ObjectId(req.params.id_consultation) }
-//   const id_consult = req.params.id_consultation;
-//   Consultation.deleteOne({ _id:id_consult })
-//     .then(result => res.status(200).json(result))
-//     .catch(error => {
-//       res.status(404).json({ error: error.message });
-//     });
-// });
 
 App.delete('/api/Consultation/:id_consultation', (req, res) => {
   const query = { _id: new ObjectId(req.params.id_consultation) }
@@ -317,22 +299,22 @@ App.delete('/api/Consultation/:id_consultation', (req, res) => {
 
 
 //Modification de l'etat du rendez-vous
-// App.put('api/Docteur/:id',(req,res)=>{
-//   const Docteurid=id.req.params.id
-//   const {...body}=req.body
+App.put('api/Docteur/:id',(req,res)=>{
+  const Docteurid=id.req.params.id
+  const {...body}=req.body
 
-//   Docteur.findByIdAndUpdate(Docteurid,
-//     {
-//       id_patient:req.body.id_patient,
-//       id_docteur:req.body.id_docteur,
-//       date_consultation:req.body.date_consultation,
-//       heure_consultation:req.body.heure_consultation,
-//       etatConsultation:req.body.etatConsultation
-//     },{new:true}// {new:true} renvoie la version mise à jour du Docteur
-//     )
-//       .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))
-//       .catch(error=>res.status(400).json({error:error.message}))
+  Docteur.findByIdAndUpdate(Docteurid,
+    {
+      id_patient:req.body.id_patient,
+      id_docteur:req.body.id_docteur,
+      date_consultation:req.body.date_consultation,
+      heure_consultation:req.body.heure_consultation,
+      etatConsultation:"Confirmé"
+    },{new:true}
+    )
+      .then(result=>res.status(200).json({message: 'Mise à jour effectuer'}))
+      .catch(error=>res.status(400).json({error:error.message}))
 
-// })
+})
 
 module.exports =App;
