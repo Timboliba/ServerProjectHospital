@@ -124,6 +124,14 @@ App.get('/api/Docteur',(req,res,next)=>{
     
 })
 
+// Récupération de tout les Docteur 
+App.get('/api/Docteur/filtre/:city',(req,res,next)=>{
+  Docteur.find({city:req.params.city})
+    .then(result=>res.status(200).json(result))
+    .catch(error=>res.status(400).json({error:error.message}))
+    
+})
+
 
 // Recuperation d'un Docteur par son id d'un Docteur
 App.get('/api/Docteur/id', (req, res) => {
@@ -215,6 +223,37 @@ App.put('/api/Docteur/:id',(req,res)=>{
 
 })
 
+
+
+// Recherche des docteurs par spécialité ou par ville 
+App.get('/api/Docteur/DoctorFilterByCity/:city',(req,res)=>{
+  Docteur.find({city:req.params.city})
+  .then(res=>res.status(200).json({message:'Liste des docteurs par ville'}))
+  .catch(error=>res.status(400).json({error:error.message}))
+}) 
+
+//Recherche des docteurs par spéciliatité
+App.get('/api/Docteur/DoctorFilterBySpeciliaty/:speciality',(req,res)=>{
+  Docteur.find({speciality:req.params.speciality})
+  .then(res=>res.status(200).json({message:'Liste des docteurs par spécialitée'}))
+  .catch(error=>res.status(400).json({error:error.message}))
+})
+
+//Recherche des docteurs par mode de consultation
+App.get('/api/Docteur/DoctorFilterBySpeciliaty/:disponibility',(req,res)=>{
+  Docteur.find({disponibility:req.params.disponibility})
+  .then(res=>res.status(200).json({message:'Liste des docteurs par disponibilitée'}))
+  .catch(error=>res.status(400).json({error:error.message}))
+})
+
+// Recherche des docteur par ville,spéciliaté et par mode de consultation
+App.get('/api/Docteur/DoctorFilterByAlls/:city/:speciality/:disponibility',(req,res)=>{
+  Docteur.find({speciality:req.params.speciality,city:req.params.city,disponibility:req.params.disponibility})
+  .then(res=>res.status(200).json({message:'Liste des docteurs par ville,spécialitée,disponibilitée'}))
+  .catch(error=>res.status(400).json({error:error.message}))
+})
+
+
 /*****************************************Route prise de rendez-vous*****************************************/
 
 App.post('/api/Consultation',async (req,res)=>{
@@ -264,38 +303,44 @@ App.get('/api/Consultation/Docteur/:id_docteur', (req, res, next) => {
 
 
 //suppresion d'une consultation non confirmée
-App.delete('/api/Consultation/:id_consultation',(req,res)=>{
+// App.delete('/api/Consultation/:id_consultation',(req,res)=>{
   
-  Consultation.deleteOne({ _id:req.params.id_consultation })
-  .then(result => {
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ error: "Consultation non trouvé" });
-    }
-    res.status(200).json({ message: "Consultation supprimé avec succès" });
-  })
-  .catch(error => res.status(500).json({ error: "Erreur serveur" }));
-})
+//   Consultation.deleteOne({ _id:req.params.id_consultation })
+//   .then(result => {
+//     if (result.deletedCount === 0) {
+//       return res.status(404).json({ error: "Consultation non trouvé" });
+//     }
+//     res.status(200).json({ message: "Consultation supprimé avec succès" });
+//   })
+//   .catch(error => res.status(500).json({ error: "Erreur serveur" }));
+// })
 
-
-App.delete('/api/Consultation/:id_consultation', (req, res) => {
-  const query = { _id: new ObjectId(req.params.id_consultation) }
-  const id_consult = req.params.id_consultation;
-
-  Consultation.deleteOne({ _id: new ObjectId(id_consult) })
-    .then(result => {
-      if (result.deletedCount === 1) {
-        // La suppression a réussi
-        res.status(200).json({ message: 'Consultation supprimée avec succès' });
-      } else {
-        // Aucune consultation trouvée avec cet ID
-        res.status(404).json({ error: 'Consultation non trouvée' });
-      }
-    })
-    .catch(error => {
-      // Une erreur s'est produite lors de la suppression
-      res.status(500).json({ error: error.message });
-    });
+App.delete('/api/Consultation/:id', (req, res, next) => {
+  Consultation.deleteOne({ _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+    .catch(error => res.status(400).json({ error }));
 });
+
+
+// App.delete('/api/Consultation/:id_consultation', (req, res) => {
+//   const query = { _id: new ObjectId(req.params.id_consultation) }
+//   const id_consult = req.params.id_consultation;
+
+//   Consultation.deleteOne({ _id:req.params.id_consultation})
+//     .then(result => {
+//       if (result.deletedCount === 1) {
+//         // La suppression a réussi
+//         res.status(200).json({ message: 'Consultation supprimée avec succès' });
+//       } else {
+//         // Aucune consultation trouvée avec cet ID
+//         res.status(404).json({ error: 'Consultation non trouvée' });
+//       }
+//     })
+//     .catch(error => {
+//       // Une erreur s'est produite lors de la suppression
+//       res.status(500).json({ error: error.message });
+//     });
+// });
 
 
 //Modification de l'etat du rendez-vous
