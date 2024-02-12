@@ -134,19 +134,28 @@ App.get('/api/Docteur/filtre/:city',(req,res,next)=>{
 
 
 // Recuperation d'un Docteur par son id d'un Docteur
-App.get('/api/Docteur/:id', (req, res) => {
-  const idDoc = req.body.id;
-  console.log(idDoc)
-  Docteur.findOne({_id:idDoc} )
-    .then(docteur => {
-      if (!docteur) {
-        return res.status(404).json({ error: "Docteur non trouvé" });
-      }
-      res.status(200).json(docteur);
-    })
-    .catch(error => res.status(500).json({ error: "Erreur serveur" }));
-});
+// App.get('/api/Docteur/:id', (req, res) => {
+//   const idDoc = req.body.id;
+//   console.log(idDoc)
+//   Docteur.findOne({_id:idDoc} )
+//     .then(docteur => {
+//       if (!docteur) {
+//         return res.status(404).json({ error: "Docteur non trouvé" });
+//       }
+//       res.status(200).json(docteur);
+//     })
+//     .catch(error => res.status(500).json({ error: "Erreur serveur" }));
+// });
 
+
+App.get('/api/Docteur/:id', (req, res) => {
+  
+  Docteur.findOne({ _id: req.params.id })
+    .then(result => res.status(200).json(result))
+    .catch(error => {
+      res.status(404).json({ error: error.message });
+    });
+});
 
 //Ajout d'un nouveau Docteur
 App.post('/api/Docteur',async (req,res)=>{
