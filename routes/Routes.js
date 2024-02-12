@@ -134,7 +134,7 @@ App.get('/api/Docteur/filtre/:city',(req,res,next)=>{
 
 
 // Recuperation d'un Docteur par son id d'un Docteur
-App.get('/api/Docteur/id', (req, res) => {
+App.get('/api/Docteur/:id', (req, res) => {
   const idDoc = req.body.id;
   console.log(idDoc)
   Docteur.findOne({_id:idDoc} )
