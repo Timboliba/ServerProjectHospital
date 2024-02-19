@@ -310,46 +310,13 @@ App.get('/api/Consultation/Docteur/:id_docteur', (req, res, next) => {
     .catch(error => res.status(400).json({ error: error.message }));
 });
 
-
-//suppresion d'une consultation non confirmée
-// App.delete('/api/Consultation/:id_consultation',(req,res)=>{
-  
-//   Consultation.deleteOne({ _id:req.params.id_consultation })
-//   .then(result => {
-//     if (result.deletedCount === 0) {
-//       return res.status(404).json({ error: "Consultation non trouvé" });
-//     }
-//     res.status(200).json({ message: "Consultation supprimé avec succès" });
-//   })
-//   .catch(error => res.status(500).json({ error: "Erreur serveur" }));
-// })
-
+//Suppression des consultation 
 App.delete('/api/Consultation/:id', (req, res, next) => {
   Consultation.deleteOne({ _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
     .catch(error => res.status(400).json({ error }));
 });
 
-
-// App.delete('/api/Consultation/:id_consultation', (req, res) => {
-//   const query = { _id: new ObjectId(req.params.id_consultation) }
-//   const id_consult = req.params.id_consultation;
-
-//   Consultation.deleteOne({ _id:req.params.id_consultation})
-//     .then(result => {
-//       if (result.deletedCount === 1) {
-//         // La suppression a réussi
-//         res.status(200).json({ message: 'Consultation supprimée avec succès' });
-//       } else {
-//         // Aucune consultation trouvée avec cet ID
-//         res.status(404).json({ error: 'Consultation non trouvée' });
-//       }
-//     })
-//     .catch(error => {
-//       // Une erreur s'est produite lors de la suppression
-//       res.status(500).json({ error: error.message });
-//     });
-// });
 
 
 //Modification de l'etat du rendez-vous
@@ -371,4 +338,23 @@ App.put('api/Docteur/:id',(req,res)=>{
 
 })
 
+/************************************Route planification*********************************** */
+App.post('/api/Planification',async(req,res)=>{
+  try {
+    const newPlanification=new Planification({
+      jour:req.body.jour,
+      id_docteur:req.body.docteur,
+      datePlanification:req.body.datePlanification,
+      horaire:req.body.horaire,
+      modeConsultation:req.body.modeConsultation,      
+    });
+    const savePlanification=await newPlanification.save();
+    res.status(201).json(savePlanification);
+      console.log("Succès");
+    
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.log("Échec");
+  }
+})
 module.exports =App;
