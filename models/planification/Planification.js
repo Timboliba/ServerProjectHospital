@@ -6,7 +6,6 @@ const PlanificationScheam=mongoose.Schema({
     datePlanification:{type:String,require:true},
     horaire:{type:String,require:true},
     modeConsultation:{type:String,require:true},
-    
 })
 
 module.exports=mongoose.model('Planification',PlanificationScheam)
