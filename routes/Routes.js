@@ -342,7 +342,7 @@ App.put('api/Docteur/:id',(req,res)=>{
 App.post('/api/Planification',async(req,res)=>{
   try {
     const newPlanification=new Planification({
-      jour:req.body.jour,
+      jour:req.body.jours,
       id_docteur:req.body.id_docteur,
       datePlanification:req.body.datePlanification,
       horaire:req.body.horaire,
